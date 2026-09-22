@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jonathan Victor Alexandre Roche — Digital Transformation & AI Consultant · Cambodia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+/* ============================
+   ROOT / RESET
+   ============================ */
+:root{
+  --bg:#04050a;
+  --bg-2:#080b14;
+  --cyan:#22e1ff;
+  --violet:#8b5cf6;
+  --magenta:#ff2fb9;
+  --gold:#ffc861;
+  --text:#e9eef7;
+  --muted:#8a97ad;
+  --line:rgba(120,160,220,.14);
+  --glass:rgba(255,255,255,.035);
+  --glass-b:rgba(255,255,255,.08);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  overflow-x:hidden;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+body.locked{overflow:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--cyan);color:#02040a}
+
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:#05060c}
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,var(--cyan),var(--violet));
+  border-radius:99px;
+}
+
+/* ============================
+   BACKGROUND LAYERS
+   ============================ */
+#bg-canvas{
+  position:fixed;inset:0;z-index:0;
+  pointer-events:none;
+  opacity:.85;
+}
+.orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{
+  position:absolute;border-radius:50%;
+  filter:blur(110px);
+  opacity:.28;
+  animation:float 22s ease-in-out infinite;
+}
+.orb.a{width:520px;height:520px;background:#0ea5e9;top:-160px;left:-140px}
+.orb.b{width:460px;height:460px;background:#7c3aed;top:35%;right:-180px;animation-delay:-7s}
+.orb.c{width:400px;height:400px;background:#ff2fb9;bottom:-140px;left:22%;animation-delay:-13s;opacity:.18}
+@keyframes float{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  33%{transform:translate3d(60px,-50px,0) scale(1.12)}
+  66%{transform:translate3d(-50px,40px,0) scale(.94)}
+}
+.noise{
+  position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.032;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.scanlines{
+  position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.35;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.014) 0 1px,transparent 1px 3px);
+  mix-blend-mode:overlay;
+}
+main,header,footer{position:relative;z-index:3}
+
+/* ============================
+   CUSTOM CURSOR
+   ============================ */
+.cursor-dot,.cursor-ring{
+  position:fixed;top:0;left:0;z-index:9999;pointer-events:none;
+  border-radius:50%;mix-blend-mode:screen;
+  transition:opacity .3s;
+}
+.cursor-dot{width:6px;height:6px;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+.cursor-ring{
+  width:38px;height:38px;border:1px solid rgba(34,225,255,.55);
+  transition:width .3s var(--ease),height .3s var(--ease),
+             background .3s,border-color .3s,opacity .3s;
+}
+.cursor-ring.hot{
+  width:66px;height:66px;
+  background:rgba(34,225,255,.08);
+  border-color:rgba(255,47,185,.7);
+}
+@media (hover:none),(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+
+/* ============================
+   PRELOADER
+   ============================ */
+#loader{
+  position:fixed;inset:0;z-index:10000;
+  background:radial-gradient(circle at 50% 50%,#0a1020,#03040a 70%);
+  display:grid;place-items:center;
+  transition:opacity .8s var(--ease),visibility .8s;
+}
+#loader.hide{opacity:0;visibility:hidden}
+.loader-core{text-align:center;position:relative}
+.loader-rings{width:150px;height:150px;margin:0 auto 26px;position:relative}
+.loader-rings i{
+  position:absolute;inset:0;border-radius:50%;
+  border:1px solid transparent;
+}
+.loader-rings i:nth-child(1){border-top-color:var(--cyan);animation:spin 1.1s linear infinite}
+.loader-rings i:nth-child(2){inset:16px;border-right-color:var(--violet);animation:spin 1.6s linear infinite reverse}
+.loader-rings i:nth-child(3){inset:32px;border-bottom-color:var(--magenta);animation:spin 2.1s linear infinite}
+.loader-rings b{
+  position:absolute;inset:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan),var(--violet));
+  filter:blur(6px);animation:pulse 1.6s ease-in-out infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:.4;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+.loader-core p{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.5em;
+  text-transform:uppercase;color:var(--muted);
+}
+.loader-bar{
+  width:200px;height:2px;background:rgba(255,255,255,.08);
+  margin:18px auto 0;overflow:hidden;border-radius:9px;
+}
+.loader-bar span{
+  display:block;height:100%;width:0;
+  background:linear-gradient(90deg,var(--cyan),var(--magenta));
+  animation:load 1.5s var(--ease) forwards;
+}
+@keyframes load{to{width:100%}}
+
+/* ============================
+   NAV
+   ============================ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  padding:18px clamp(18px,4vw,54px);
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .5s,backdrop-filter .5s,padding .5s,border-color .5s;
+  border-bottom:1px solid transparent;
+}
+.nav.solid{
+  background:rgba(4,5,10,.72);
+  backdrop-filter:blur(18px) saturate(160%);
+  border-bottom-color:var(--line);
+  padding-top:12px;padding-bottom:12px;
+}
+.brand{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;
+  letter-spacing:.16em;font-size:.82rem;text-transform:uppercase;
+  display:flex;align-items:center;gap:11px;
+}
+.brand .mark{
+  width:30px;height:30px;border-radius:9px;position:relative;
+  background:conic-gradient(from 0deg,var(--cyan),var(--violet),var(--magenta),var(--cyan));
+  animation:spin 6s linear infinite;
+  box-shadow:0 0 22px rgba(34,225,255,.4);
+}
+.brand .mark::after{
+  content:'';position:absolute;inset:3px;border-radius:6px;background:#05060c;
+}
+.brand .mark::before{
+  content:'JR';position:absolute;inset:0;z-index:2;
+  display:grid;place-items:center;
+  font-size:.6rem;font-weight:700;letter-spacing:0;color:var(--cyan);
+}
+.nav-links{display:flex;gap:34px;align-items:center}
+.nav-links a{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);
+  position:relative;padding:6px 0;transition:color .3s;
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:0;height:1px;width:0;
+  background:linear-gradient(90deg,var(--cyan),var(--magenta));
+  transition:width .4s var(--ease);
+}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.burger{
+  display:none;background:none;border:1px solid var(--line);
+  width:44px;height:44px;border-radius:11px;cursor:pointer;
+  position:relative;
+  z-index:901;
+}
+.burger i{
+  position:absolute;left:12px;right:12px;height:1.5px;background:var(--cyan);
+  transition:.35s var(--ease);
+}
+.burger i:nth-child(1){top:16px}
+.burger i:nth-child(2){top:22px}
+.burger i:nth-child(3){top:28px}
+.burger.on i:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger.on i:nth-child(2){opacity:0}
+.burger.on i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+.scroll-progress{
+  position:fixed;top:0;left:0;height:2px;width:100%;z-index:950;
+  background:transparent;
+}
+.scroll-progress span{
+  display:block;height:100%;width:0;
+  background:linear-gradient(90deg,var(--cyan),var(--violet),var(--magenta),var(--gold));
+  box-shadow:0 0 14px rgba(34,225,255,.7);
+}
+
+@media(max-width:880px){
+  .burger{display:block}
+  .nav-links{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:rgba(4,5,10,.96);
+    backdrop-filter:blur(24px);
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:30px;
+    padding-top:80px;
+    padding-bottom:40px;
+    clip-path:circle(0% at 92% 5%);
+    transition:clip-path .7s var(--ease);
+    z-index:899;
+  }
+  .nav-links.open{
+    clip-path:circle(150% at 92% 5%);
+  }
+  .nav-links a{
+    font-size:1.1rem;
+    letter-spacing:.28em;
+  }
+}
+
+/* ============================
+   LAYOUT HELPERS
+   ============================ */
+section{padding:clamp(80px,11vw,150px) clamp(20px,5vw,64px);position:relative}
+.wrap{max-width:1240px;margin:0 auto}
+.eyebrow{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.42em;
+  text-transform:uppercase;color:var(--cyan);
+  display:flex;align-items:center;gap:14px;margin-bottom:22px;
+}
+.eyebrow::before{
+  content:'';width:38px;height:1px;background:var(--cyan);
+  box-shadow:0 0 10px var(--cyan);
+}
+h2.title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2rem,5.2vw,3.9rem);
+  line-height:1.04;letter-spacing:-.025em;font-weight:700;
+  margin-bottom:22px;
+}
+h2.title em{
+  font-style:normal;
+  background:linear-gradient(100deg,var(--cyan),var(--violet) 45%,var(--magenta));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.lead{color:var(--muted);font-size:clamp(.95rem,1.4vw,1.08rem);max-width:66ch}
+.lead strong{color:var(--text);font-weight:500}
+
+.reveal{opacity:0;transform:translateY(42px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.09s}
+.reveal.d2{transition-delay:.18s}
+.reveal.d3{transition-delay:.27s}
+.reveal.d4{transition-delay:.36s}
+.reveal.d5{transition-delay:.45s}
+
+/* ============================
+   HERO
+   ============================ */
+.hero{
+  min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding-top:130px;padding-bottom:70px;
+  position:relative;overflow:hidden;
+}
+.hero-grid-floor{
+  position:absolute;left:-30%;right:-30%;bottom:-10px;height:46vh;
+  background-image:
+    linear-gradient(rgba(34,225,255,.16) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(139,92,246,.14) 1px,transparent 1px);
+  background-size:70px 70px;
+  transform:perspective(420px) rotateX(66deg);
+  transform-origin:bottom center;
+  mask-image:linear-gradient(to top,#000,transparent 82%);
+  -webkit-mask-image:linear-gradient(to top,#000,transparent 82%);
+  animation:gridmove 9s linear infinite;
+  pointer-events:none;
+}
+@keyframes gridmove{to{background-position:0 70px,70px 0}}
+
+.status-pill{
+  display:inline-flex;align-items:center;gap:11px;
+  padding:8px 18px 8px 13px;border-radius:99px;
+  background:var(--glass);border:1px solid var(--glass-b);
+  backdrop-filter:blur(12px);
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);
+  width:fit-content;margin-bottom:30px;
+}
+.status-pill .dot{
+  width:7px;height:7px;border-radius:50%;background:#22e58f;
+  box-shadow:0 0 10px #22e58f;position:relative;flex:0 0 auto;
+}
+.status-pill .dot::after{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:1px solid rgba(34,229,143,.6);animation:ping 1.8s ease-out infinite;
+}
+@keyframes ping{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.9);opacity:0}}
+
+.hero h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700;text-transform:uppercase;
+  font-size:clamp(2.5rem,9vw,7.6rem);
+  line-height:.9;letter-spacing:-.035em;
+  margin-bottom:26px;
+}
+.hero h1 .line{display:block;overflow:hidden}
+.hero h1 .line > span{
+  display:block;
+  opacity:0;transform:translateY(105%) rotateX(-55deg);
+  transform-origin:bottom;
+}
+body.loaded .hero h1 .line > span{
+  animation:riseIn 1.05s var(--ease) forwards;
+}
+body.loaded .hero h1 .line:nth-child(1) > span{animation-delay:.10s}
+body.loaded .hero h1 .line:nth-child(2) > span{animation-delay:.22s}
+body.loaded .hero h1 .line:nth-child(3) > span{animation-delay:.34s}
+@keyframes riseIn{to{opacity:1;transform:none}}
+
+.hero h1 .grad{
+  background:linear-gradient(100deg,#22e1ff,#8b5cf6 38%,#ff2fb9 68%,#ffc861 92%);
+  background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 7s linear infinite;
+}
+@keyframes shimmer{to{background-position:220% 0}}
+
+.hero .role-line{
+  font-family:var(--mono);font-size:clamp(.78rem,1.5vw,1rem);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);
+  min-height:1.6em;margin-bottom:26px;
+}
+.hero .role-line .cursor{
+  display:inline-block;width:9px;height:1.05em;vertical-align:-.16em;
+  background:var(--cyan);margin-left:3px;
+  animation:blink 1s steps(2) infinite;
+  box-shadow:0 0 10px var(--cyan);
+}
+@keyframes blink{50%{opacity:0}}
+
+.hero p.summary{
+  color:var(--muted);max-width:62ch;font-size:clamp(.95rem,1.4vw,1.08rem);
+  margin-bottom:38px;
+}
+
+.cta-row{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:64px}
+.btn{
+  position:relative;display:inline-flex;align-items:center;gap:11px;
+  padding:15px 32px;border-radius:99px;
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.19em;
+  text-transform:uppercase;cursor:pointer;overflow:hidden;
+  border:1px solid var(--glass-b);
+  transition:transform .35s var(--ease),border-color .35s,color .35s;
+  background:var(--glass);backdrop-filter:blur(10px);
+  max-width:100%;
+  box-sizing:border-box;
+}
+.btn span{position:relative;z-index:2}
+.btn::before{
+  content:'';position:absolute;inset:0;z-index:1;
+  background:linear-gradient(100deg,var(--cyan),var(--violet),var(--magenta));
+  transform:translateY(101%);transition:transform .5s var(--ease);
+}
+.btn:hover{color:#03040a;border-color:transparent;transform:translateY(-3px)}
+.btn:hover::before{transform:translateY(0)}
+.btn.solid{
+  background:linear-gradient(100deg,var(--cyan),var(--violet));
+  color:#03040a;border-color:transparent;font-weight:600;
+  box-shadow:0 12px 44px -14px rgba(34,225,255,.75);
+}
+.btn.solid::before{background:linear-gradient(100deg,var(--magenta),var(--gold))}
+.btn .arrow{position:relative;z-index:2;transition:transform .35s var(--ease)}
+.btn:hover .arrow{transform:translateX(5px)}
+
+.hero-stats{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:2px;border-top:1px solid var(--line);padding-top:34px;max-width:960px;
+}
+.hstat{padding-right:22px}
+.hstat b{
+  display:block;font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(1.7rem,3.6vw,2.7rem);font-weight:700;line-height:1;
+  background:linear-gradient(180deg,#fff,#7f8ea8);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hstat small{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--muted);
+}
+
+.scroll-cue{
+  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--muted);
+}
+.scroll-cue i{
+  width:1px;height:52px;background:linear-gradient(var(--cyan),transparent);
+  animation:cue 2.1s ease-in-out infinite;
+}
+@keyframes cue{0%,100%{opacity:.25;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ============================
+   ABOUT
+   ============================ */
+.about-grid{
+  display:grid;grid-template-columns:1.35fr .85fr;gap:clamp(30px,5vw,70px);
+  align-items:start;
+}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr}}
+
+.info-card{
+  border:1px solid var(--line);border-radius:20px;
+  background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.012));
+  backdrop-filter:blur(16px);
+  padding:30px;position:relative;overflow:hidden;
+}
+.info-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  animation:sweep 4s ease-in-out infinite;
+}
+@keyframes sweep{0%,100%{opacity:.25}50%{opacity:1}}
+.info-card h3{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--cyan);margin-bottom:22px;
+}
+.info-row{
+  display:flex;justify-content:space-between;gap:14px;
+  padding:13px 0;border-bottom:1px dashed rgba(120,160,220,.13);
+  font-size:.88rem;
+}
+.info-row:last-child{border-bottom:none}
+.info-row span:first-child{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);
+  flex:0 0 auto;
+}
+.info-row span:last-child{text-align:right;color:var(--text)}
+
+.pillars{display:grid;gap:14px;margin-top:34px}
+.pillar{
+  display:flex;gap:16px;align-items:flex-start;
+  padding:18px 20px;border-radius:14px;
+  border:1px solid var(--line);
+  background:linear-gradient(120deg,rgba(255,255,255,.032),transparent);
+  transition:transform .45s var(--ease),border-color .45s,background .45s;
+}
+.pillar:hover{
+  transform:translateX(9px);
+  border-color:rgba(34,225,255,.45);
+  background:linear-gradient(120deg,rgba(34,225,255,.08),transparent);
+}
+.pillar i{
+  flex:0 0 34px;height:34px;border-radius:9px;display:grid;place-items:center;
+  background:linear-gradient(135deg,rgba(34,225,255,.18),rgba(139,92,246,.18));
+  border:1px solid var(--glass-b);
+  font-style:normal;font-size:.9rem;
+}
+.pillar h4{font-size:.95rem;font-weight:600;margin-bottom:3px}
+.pillar p{font-size:.84rem;color:var(--muted);line-height:1.55}
+
+/* ============================
+   PHOTO GALLERY
+   ============================ */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:24px;
+  margin-top:56px;
+}
+.gallery-item{
+  position:relative;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:linear-gradient(160deg,rgba(255,255,255,.04),transparent);
+  transition:transform .6s var(--ease),border-color .6s,box-shadow .6s;
+  margin:0;
+}
+.gallery-item:hover{
+  transform:translateY(-8px);
+  border-color:rgba(34,225,255,.45);
+  box-shadow:0 30px 70px -35px rgba(34,225,255,.6);
+}
+.gallery-item img{
+  width:100%;
+  height:460px;
+  object-fit:cover;
+  object-position:center top;
+  display:block;
+  filter:grayscale(.3) contrast(1.05);
+  transition:transform .9s var(--ease),filter .9s var(--ease);
+}
+.gallery-item:hover img{
+  transform:scale(1.06);
+  filter:grayscale(0) contrast(1.1);
+}
+.gallery-item figcaption{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  padding:26px 24px 22px;
+  background:linear-gradient(to top,rgba(4,5,10,.94) 0%,rgba(4,5,10,.55) 60%,transparent 100%);
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.gallery-loc{
+  font-family:var(--mono);
+  font-size:.66rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--cyan);
+}
+.gallery-desc{
+  font-size:.88rem;
+  color:var(--text);
+  line-height:1.5;
+}
+.gallery-grid.single{
+  grid-template-columns:1fr;
+  max-width:800px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.gallery-grid.single .gallery-item img{
+  height:520px;
+  object-position:center 20%;
+}
+
+/* ============================
+   SERVICES GRID
+   ============================ */
+.service-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;
+  margin-top:56px;
+}
+.service-card{
+  position:relative;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:28px 26px;
+  background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,.008));
+  backdrop-filter:blur(12px);
+  transition:transform .5s var(--ease),border-color .5s,background .5s;
+  overflow:hidden;
+}
+.service-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  opacity:0;
+  transition:opacity .5s;
+}
+.service-card:hover::before{opacity:1}
+.service-card:hover{
+  transform:translateY(-7px);
+  border-color:rgba(34,225,255,.35);
+  background:linear-gradient(160deg,rgba(34,225,255,.07),rgba(139,92,246,.03));
+}
+.service-num{
+  font-family:var(--mono);
+  font-size:.6rem;
+  letter-spacing:.26em;
+  color:var(--cyan);
+  display:block;
+  margin-bottom:14px;
+}
+.service-card h3{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.05rem;
+  font-weight:600;
+  margin-bottom:10px;
+  line-height:1.3;
+  letter-spacing:-.01em;
+}
+.service-card p{
+  font-size:.84rem;
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* ============================
+   PRICING / PACKAGES
+   ============================ */
+.pricing-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:22px;
+  margin-top:56px;
+  align-items:stretch;
+}
+.price-card{
+  position:relative;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:34px 30px 32px;
+  background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.008));
+  backdrop-filter:blur(14px);
+  display:flex;
+  flex-direction:column;
+  transition:transform .55s var(--ease),border-color .55s,box-shadow .55s;
+}
+.price-card::before{
+  content:'';
+  position:absolute;top:0;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--magenta));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .6s var(--ease);
+}
+.price-card:hover::before{transform:scaleX(1)}
+.price-card:hover{
+  transform:translateY(-9px);
+  border-color:rgba(34,225,255,.4);
+  box-shadow:0 30px 70px -40px rgba(34,225,255,.55);
+}
+.price-card.featured{
+  border-color:rgba(139,92,246,.5);
+  background:linear-gradient(165deg,rgba(139,92,246,.12),rgba(34,225,255,.05));
+  box-shadow:0 24px 60px -30px rgba(139,92,246,.55);
+}
+.price-card.featured::after{
+  content:'FLAGSHIP';
+  position:absolute;
+  top:-1px;right:24px;
+  transform:translateY(-50%);
+  font-family:var(--mono);
+  font-size:.58rem;
+  letter-spacing:.24em;
+  padding:5px 12px;
+  border-radius:99px;
+  background:linear-gradient(100deg,var(--cyan),var(--violet));
+  color:#03040a;
+  font-weight:600;
+}
+.price-num{
+  font-family:var(--mono);
+  font-size:.62rem;
+  letter-spacing:.24em;
+  color:var(--muted);
+  display:block;
+  margin-bottom:14px;
+}
+.price-card h3{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.2rem;
+  font-weight:600;
+  margin-bottom:14px;
+  line-height:1.25;
+}
+.price-amount{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2rem,4vw,2.6rem);
+  font-weight:700;
+  line-height:1;
+  background:linear-gradient(180deg,#fff,#8fa0b8);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  margin-bottom:6px;
+}
+.price-amount small{
+  font-size:.85rem;
+  font-weight:400;
+  color:var(--muted);
+  -webkit-text-fill-color:var(--muted);
+  letter-spacing:.06em;
+  margin-left:4px;
+}
+.price-desc{
+  font-size:.85rem;
+  color:var(--muted);
+  line-height:1.6;
+  margin:16px 0 20px;
+  padding-bottom:20px;
+  border-bottom:1px dashed rgba(120,160,220,.16);
+}
+.price-list{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+  margin-bottom:26px;
+  flex:1;
+}
+.price-list li{
+  display:flex;
+  gap:11px;
+  align-items:flex-start;
+  font-size:.84rem;
+  color:#a9b8cc;
+  line-height:1.5;
+}
+.price-list li::before{
+  content:'▸';
+  color:var(--cyan);
+  font-size:.8rem;
+  flex:0 0 auto;
+  margin-top:1px;
+  text-shadow:0 0 8px rgba(34,225,255,.8);
+}
+.price-card.featured .price-list li::before{color:var(--magenta);text-shadow:0 0 8px rgba(255,47,185,.8)}
+.price-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:14px 24px;
+  border-radius:99px;
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  border:1px solid var(--glass-b);
+  background:var(--glass);
+  color:var(--text);
+  transition:transform .35s var(--ease),border-color .35s,color .35s,background .35s;
+  cursor:pointer;
+  width:100%;
+}
+.price-cta:hover{
+  transform:translateY(-2px);
+  border-color:rgba(34,225,255,.5);
+  background:rgba(34,225,255,.08);
+  color:var(--cyan);
+}
+.price-card.featured .price-cta{
+  background:linear-gradient(100deg,var(--cyan),var(--violet));
+  color:#03040a;
+  border-color:transparent;
+  font-weight:600;
+}
+.price-card.featured .price-cta:hover{
+  background:linear-gradient(100deg,var(--magenta),var(--gold));
+  color:#03040a;
+}
+.pricing-note{
+  margin-top:34px;
+  padding:22px 26px;
+  border-radius:14px;
+  border:1px dashed rgba(120,160,220,.22);
+  background:rgba(255,255,255,.02);
+  font-size:.88rem;
+  color:var(--muted);
+  text-align:center;
+  line-height:1.65;
+}
+.pricing-note strong{color:var(--text);font-weight:500}
+
+/* ============================
+   EXPERIENCE TIMELINE
+   ============================ */
+.timeline{position:relative;margin-top:66px;padding:10px 0}
+.tl-line{
+  position:absolute;left:50%;top:0;bottom:0;width:1px;
+  background:rgba(120,160,220,.15);transform:translateX(-50%);
+}
+.tl-fill{
+  position:absolute;left:0;top:0;width:100%;height:0;
+  background:linear-gradient(180deg,var(--cyan),var(--violet),var(--magenta));
+  box-shadow:0 0 16px rgba(34,225,255,.8);
+  transition:height .12s linear;
+}
+.tl-item{
+  position:relative;width:50%;padding:0 54px 52px 0;
+}
+.tl-item:nth-child(even){
+  margin-left:50%;padding:0 0 52px 54px;
+}
+.tl-dot{
+  position:absolute;top:26px;right:-6px;
+  width:12px;height:12px;border-radius:50%;
+  background:#05060c;border:2px solid var(--cyan);
+  box-shadow:0 0 0 5px rgba(34,225,255,.09),0 0 18px rgba(34,225,255,.8);
+  z-index:2;
+}
+.tl-item:nth-child(even) .tl-dot{right:auto;left:-6px;border-color:var(--magenta);box-shadow:0 0 0 5px rgba(255,47,185,.09),0 0 18px rgba(255,47,185,.8)}
+.tl-card{
+  border:1px solid var(--line);border-radius:18px;
+  background:linear-gradient(155deg,rgba(255,255,255,.045),rgba(255,255,255,.01));
+  backdrop-filter:blur(14px);
+  padding:26px 26px 24px;position:relative;overflow:hidden;
+  transition:transform .5s var(--ease),border-color .5s,box-shadow .5s;
+}
+.tl-card::after{
+  content:'';position:absolute;inset:0;border-radius:18px;pointer-events:none;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(34,225,255,.11),transparent 60%);
+  opacity:0;transition:opacity .5s;
+}
+.tl-card:hover::after{opacity:1}
+.tl-card:hover{
+  transform:translateY(-7px);
+  border-color:rgba(34,225,255,.42);
+  box-shadow:0 26px 60px -30px rgba(34,225,255,.55);
+}
+.tl-date{
+  font-family:var(--mono);font-size:.67rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--gold);display:block;margin-bottom:11px;
+}
+.tl-card h3{
+  font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;
+  letter-spacing:-.01em;margin-bottom:5px;
+}
+.tl-card h4{
+  font-size:.8rem;font-weight:500;color:var(--cyan);
+  letter-spacing:.05em;margin-bottom:13px;
+}
+.tl-card p{font-size:.87rem;color:var(--muted);line-height:1.68}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.chip{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;
+  text-transform:uppercase;padding:5px 11px;border-radius:99px;
+  border:1px solid rgba(120,160,220,.22);
+  color:#9fb0c7;background:rgba(255,255,255,.025);
+  opacity:0;transform:translateY(10px);
+}
+.in .chip{animation:chipIn .5s var(--ease) forwards;animation-delay:calc(var(--i,0)*35ms)}
+@keyframes chipIn{to{opacity:1;transform:none}}
+
+@media(max-width:880px){
+  .tl-line{left:9px}
+  .tl-item,.tl-item:nth-child(even){
+    width:100%;margin-left:0;padding:0 0 42px 40px;
+  }
+  .tl-dot,.tl-item:nth-child(even) .tl-dot{left:3px;right:auto}
+}
+
+.earlier{margin-top:70px}
+.earlier h3{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:26px;
+  display:flex;align-items:center;gap:16px;
+}
+.earlier h3::after{content:'';flex:1;height:1px;background:var(--line)}
+.mini-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:14px;
+}
+.mini{
+  border:1px solid var(--line);border-radius:14px;padding:20px;
+  background:linear-gradient(150deg,rgba(255,255,255,.035),transparent);
+  transition:transform .45s var(--ease),border-color .45s,background .45s;
+}
+.mini:hover{
+  transform:translateY(-6px);border-color:rgba(255,47,185,.4);
+  background:linear-gradient(150deg,rgba(255,47,185,.08),transparent);
+}
+.mini b{display:block;font-size:.9rem;font-weight:600;margin-bottom:4px}
+.mini em{
+  font-style:normal;font-family:var(--mono);font-size:.63rem;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--gold);
+  display:block;margin-bottom:9px;
+}
+.mini p{font-size:.8rem;color:var(--muted);line-height:1.55}
+
+/* ============================
+   SKILLS
+   ============================ */
+.skill-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));
+  gap:18px;margin-top:56px;
+}
+.skill-card{
+  position:relative;border:1px solid var(--line);border-radius:20px;
+  padding:28px 26px;overflow:hidden;
+  background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.008));
+  backdrop-filter:blur(14px);
+  transition:transform .55s var(--ease),border-color .55s;
+}
+.skill-card::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--magenta));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .6s var(--ease);
+}
+.skill-card:hover::before{transform:scaleX(1)}
+.skill-card:hover{transform:translateY(-9px);border-color:rgba(34,225,255,.35)}
+.skill-num{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;
+  color:var(--muted);display:block;margin-bottom:16px;
+}
+.skill-card h3{
+  font-family:'Space Grotesk',sans-serif;font-size:1.08rem;font-weight:600;
+  margin-bottom:20px;display:flex;align-items:center;gap:10px;
+}
+.skill-card h3 i{
+  width:9px;height:9px;border-radius:3px;display:inline-block;
+  background:linear-gradient(135deg,var(--cyan),var(--violet));
+  box-shadow:0 0 12px rgba(34,225,255,.85);
+}
+.skill-tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{
+  font-size:.73rem;padding:7px 13px;border-radius:9px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(120,160,220,.16);
+  color:#a9b8cc;
+  transition:.35s var(--ease);
+  opacity:0;transform:translateY(10px);
+}
+.in .tag{animation:chipIn .5s var(--ease) forwards;animation-delay:calc(var(--i,0)*30ms)}
+.tag:hover{
+  color:#03040a;border-color:transparent;
+  background:linear-gradient(100deg,var(--cyan),var(--violet));
+  transform:translateY(-2px);
+}
+
+/* ============================
+   LANGUAGES
+   ============================ */
+.lang-wrap{
+  margin-top:70px;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:26px;align-items:center;
+}
+.lang{
+  text-align:center;position:relative;
+  padding:26px 12px;border-radius:20px;
+  border:1px solid var(--line);
+  background:linear-gradient(160deg,rgba(255,255,255,.04),transparent);
+  transition:transform .5s var(--ease),border-color .5s;
+}
+.lang:hover{transform:translateY(-8px);border-color:rgba(139,92,246,.45)}
+.lang svg{width:132px;height:132px;transform:rotate(-90deg);margin:0 auto}
+.lang svg circle{fill:none;stroke-width:4;stroke-linecap:round}
+.ring-bg{stroke:rgba(120,160,220,.13)}
+.ring-fg{
+  stroke:url(#langGrad);
+  stroke-dasharray:326.7;
+  stroke-dashoffset:326.7;
+  transition:stroke-dashoffset 1.8s var(--ease);
+  filter:drop-shadow(0 0 7px rgba(34,225,255,.85));
+}
+.lang-pct{
+  position:absolute;top:calc(50% - 44px);left:50%;transform:translate(-50%,-50%);
+  font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;
+  background:linear-gradient(180deg,#fff,#8fa0b8);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.lang-body{margin-top:-42px;position:relative}
+.lang-body strong{display:block;font-size:.96rem;font-weight:600;margin-bottom:2px}
+.lang-body span{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);
+}
+
+/* ============================
+   TECH MARQUEE
+   ============================ */
+.marquee{
+  margin-top:74px;overflow:hidden;position:relative;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:22px 0;
+  mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+}
+.marquee-track{
+  display:flex;gap:56px;width:max-content;
+  animation:scrollx 30s linear infinite;
+}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes scrollx{to{transform:translateX(-50%)}}
+.marquee-track span{
+  font-family:'Space Grotesk',sans-serif;font-size:clamp(1.1rem,2.6vw,1.9rem);
+  font-weight:600;letter-spacing:-.01em;white-space:nowrap;
+  color:transparent;-webkit-text-stroke:1px rgba(140,165,200,.42);
+  transition:.4s;
+}
+.marquee-track span:hover{
+  -webkit-text-stroke:1px var(--cyan);
+  color:rgba(34,225,255,.12);
+}
+
+/* ============================
+   CONTACT
+   ============================ */
+.contact{text-align:center;position:relative;overflow:hidden}
+.contact .eyebrow{justify-content:center}
+.contact .eyebrow::before{display:none}
+.contact h2{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2.1rem,7vw,5.4rem);line-height:1;font-weight:700;
+  letter-spacing:-.035em;text-transform:uppercase;margin-bottom:26px;
+}
+.contact h2 em{
+  font-style:normal;
+  background:linear-gradient(100deg,var(--cyan),var(--violet) 40%,var(--magenta) 72%,var(--gold));
+  background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 6s linear infinite;
+}
+.contact .lead{margin:0 auto 40px}
+.contact-meta{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:46px;
+}
+.meta-chip{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);
+  padding:10px 18px;border-radius:99px;
+  border:1px solid var(--line);background:var(--glass);
+  transition:transform .35s var(--ease),border-color .35s,color .35s,background .35s;
+}
+.meta-chip b{color:var(--cyan);font-weight:500}
+a.meta-chip{cursor:pointer}
+a.meta-chip:hover{
+  transform:translateY(-4px);
+  border-color:rgba(34,225,255,.5);
+  background:rgba(34,225,255,.07);
+  color:var(--text);
+}
+a.meta-chip:hover b{color:var(--magenta)}
+
+footer{
+  padding:36px clamp(20px,5vw,64px);
+  border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
+  align-items:center;
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);
+}
+footer a{color:var(--cyan);transition:color .3s}
+footer a:hover{color:var(--magenta)}
+.footer-links{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* ============================
+   MOBILE RESPONSIVE FIXES
+   ============================ */
+@media(max-width:600px){
+  .hero{
+    padding-top:110px;
+    padding-bottom:60px;
+    min-height:auto;
+    text-align:left;
+  }
+  .hero .wrap{width:100%}
+  .status-pill{
+    font-size:.58rem;
+    letter-spacing:.12em;
+    padding:7px 14px 7px 11px;
+    margin-bottom:24px;
+    max-width:100%;
+    white-space:normal;
+    line-height:1.4;
+  }
+  .status-pill .dot{flex:0 0 auto}
+  .hero h1{
+    font-size:clamp(2.1rem,12vw,3.2rem);
+    line-height:.95;
+    margin-bottom:20px;
+  }
+  .hero .role-line{
+    font-size:.72rem;
+    letter-spacing:.1em;
+    margin-bottom:20px;
+    min-height:2.4em;
+  }
+  .hero p.summary{
+    font-size:.9rem;
+    margin-bottom:30px;
+  }
+  .cta-row{
+    flex-direction:column;
+    align-items:stretch;
+    gap:12px;
+    margin-bottom:48px;
+    width:100%;
+  }
+  .cta-row .btn{
+    width:100%;
+    justify-content:center;
+    padding:15px 20px;
+    font-size:.7rem;
+    letter-spacing:.14em;
+    box-sizing:border-box;
+  }
+  .cta-row .btn span{white-space:nowrap}
+  .cta-row .btn .arrow{margin-left:6px}
+  .hero-stats{
+    grid-template-columns:repeat(2,1fr);
+    gap:20px 12px;
+    padding-top:28px;
+    max-width:100%;
+  }
+  .hstat{padding-right:0}
+  .hstat b{font-size:1.65rem}
+  .hstat small{font-size:.58rem;letter-spacing:.14em}
+  .scroll-cue{display:none}
+  section{padding-left:18px;padding-right:18px}
+  h2.title{font-size:clamp(1.7rem,7.5vw,2.4rem);line-height:1.1}
+  .eyebrow{font-size:.62rem;letter-spacing:.3em}
+  .gallery-grid.single{max-width:100%;margin-top:36px}
+  .gallery-grid.single .gallery-item img{height:420px}
+  .gallery-item figcaption{padding:20px 18px 18px}
+  .gallery-desc{font-size:.82rem}
+  .price-card{padding:28px 24px 26px}
+  .price-card.featured::after{right:18px}
+  .pricing-note{font-size:.82rem;padding:18px 20px}
+  .contact h2{font-size:clamp(1.9rem,9vw,3rem)}
+  .contact .cta-row{width:100%}
+  .contact .cta-row .btn{width:100%}
+  .meta-chip{
+    font-size:.58rem;
+    padding:9px 14px;
+    letter-spacing:.1em;
+    word-break:break-word;
+    max-width:100%;
+  }
+  footer{
+    flex-direction:column;
+    align-items:flex-start;
+    text-align:left;
+    font-size:.58rem;
+  }
+  .footer-links{
+    width:100%;
+    justify-content:flex-start;
+    word-break:break-word;
+  }
+  .info-row{flex-direction:column;gap:4px;align-items:flex-start}
+  .info-row span:last-child{text-align:left}
+}
+
+@media(max-width:380px){
+  .hero h1{font-size:clamp(1.8rem,11vw,2.6rem)}
+  .cta-row .btn{padding:13px 16px;font-size:.64rem}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .hstat b{font-size:1.4rem}
+  .gallery-grid.single .gallery-item img{height:340px}
+}
+
+@media(min-width:601px) and (max-width:880px){
+  .cta-row{gap:14px}
+  .cta-row .btn{padding:14px 24px;font-size:.7rem}
+  .gallery-grid.single .gallery-item img{height:480px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ PRELOADER ============ -->
+<div id="loader">
+  <div class="loader-core">
+    <div class="loader-rings"><i></i><i></i><i></i><b></b></div>
+    <p>Initialising Consultant Profile</p>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- ============ BACKGROUND ============ -->
+<canvas id="bg-canvas"></canvas>
+<div class="orbs">
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="orb c"></div>
+</div>
+<div class="noise"></div>
+<div class="scanlines"></div>
+
+<!-- ============ CURSOR ============ -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- ============ NAV ============ -->
+<div class="scroll-progress"><span id="progressBar"></span></div>
+<header class="nav" id="nav">
+  <a href="#home" class="brand">
+    <span class="mark"></span>
+    <span>Jonathan Roche</span>
+  </a>
+  <nav class="nav-links" id="navLinks">
+    <a href="#home" class="active">Home</a>
+    <a href="#about">Profile</a>
+    <a href="#services">Services</a>
+    <a href="#packages">Packages</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="burger" id="burger" aria-label="Menu"><i></i><i></i><i></i></button>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="hero-grid-floor"></div>
+  <div class="wrap">
+    <div class="status-pill"><span class="dot"></span> Independent Consultant · Phnom Penh, Cambodia</div>
+
+    <h1>
+      <span class="line"><span>Digital</span></span>
+      <span class="line"><span class="grad">Transformation</span></span>
+      <span class="line"><span>Consulting</span></span>
+    </h1>
+
+    <div class="role-line"><span id="typed"></span><span class="cursor"></span></div>
+
+    <p class="summary">
+      Jonathan Victor Alexandre Roche — independent consultant based in Phnom Penh, guiding
+      businesses of every size through <strong>digital transformation</strong>,
+      <strong>Industry 4.0 readiness</strong>, <strong>AI &amp; agentic system deployment</strong>,
+      <strong>digital ethics</strong>, and <strong>cybersecurity fundamentals</strong>.
+      Backed by 15+ years of international operational leadership and six years of dedicated
+      mastery in emerging technology.
+    </p>
+
+    <div class="cta-row">
+      <a href="#packages" class="btn solid"><span>View Packages</span><span class="arrow">→</span></a>
+      <a href="#contact" class="btn"><span>Book a Consultation</span><span class="arrow">→</span></a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hstat reveal"><b data-count="19" data-suffix="+">0</b><small>Years Professional Experience</small></div>
+      <div class="hstat reveal d1"><b data-count="6" data-suffix="">0</b><small>Years in Emerging Tech</small></div>
+      <div class="hstat reveal d2"><b data-count="8" data-suffix="">0</b><small>Consulting Domains</small></div>
+      <div class="hstat reveal d3"><b data-count="3" data-suffix="">0</b><small>Service Packages</small></div>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span>Scroll</span><i></i></div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <div class="eyebrow reveal">The Consultant</div>
+        <h2 class="title reveal d1">Guiding organisations through<br><em>the digital revolution.</em></h2>
+        <p class="lead reveal d2">
+          I advise small, medium and large companies on how to navigate digital transformation
+          with clarity, discipline and measurable outcomes. My work combines strategic
+          advisory with hands-on implementation — from the first diagnostic review through
+          to full deployment, staff formation and ongoing technical support.
+        </p>
+        <p class="lead reveal d2" style="margin-top:18px">
+          Since 2020 I have dedicated myself to the mastery of <strong>Prompt Engineering</strong>,
+          <strong>AI Ethics</strong>, <strong>Cybersecurity</strong>, <strong>Blockchain &amp;
+          Digital Assets</strong>, <strong>Social Engineering</strong> and <strong>Agentic Systems</strong>.
+          This foundation, combined with 15+ years of operational and security leadership across
+          France, China and Cambodia, allows me to advise at the intersection of human risk,
+          operational resilience and intelligent automation.
+        </p>
+        <p class="lead reveal d2" style="margin-top:18px">
+          As an <strong>AI ethicist</strong>, I help leadership teams understand the responsible
+          deployment of AI — bias awareness, governance and the human impact of automated systems.
+          As a former <strong>close protection and security professional</strong>, I bring
+          situational awareness, discretion and calm decision-making to every engagement.
+        </p>
+
+        <div class="pillars">
+          <div class="pillar reveal d3">
+            <i>◈</i>
+            <div>
+              <h4>Strategic Technology Advisory</h4>
+              <p>Digital transformation, Industry 4.0 readiness, AI ethics, governance and long-term technology strategy.</p>
+            </div>
+          </div>
+          <div class="pillar reveal d4">
+            <i>◆</i>
+            <div>
+              <h4>AI &amp; Agentic Implementation</h4>
+              <p>LLM deployment, agentic system architecture, installation, testing, continuous model updates and support.</p>
+            </div>
+          </div>
+          <div class="pillar reveal d5">
+            <i>◇</i>
+            <div>
+              <h4>Cybersecurity &amp; Formation</h4>
+              <p>Infrastructure security, safe digital behaviours, employee and executive formation, crisis readiness.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="info-card reveal d2">
+        <h3>Engagement Overview</h3>
+        <div class="info-row"><span>Base</span><span>Phnom Penh, Cambodia</span></div>
+        <div class="info-row"><span>Coverage</span><span>Cambodia · SEA · International</span></div>
+        <div class="info-row"><span>Clients</span><span>Small · Medium · Large Enterprise</span></div>
+        <div class="info-row"><span>Delivery</span><span>Advisory or Full Implementation</span></div>
+        <div class="info-row"><span>Languages</span><span>FR · EN · 中文</span></div>
+        <div class="info-row"><span>Availability</span><span>Immediate</span></div>
+        <div class="info-row"><span>Focus</span><span>AI · Cyber · Digital Transformation</span></div>
+        <div class="info-row"><span>Engagement</span><span>Hourly · Retainer · Project</span></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <div class="wrap">
+    <div class="eyebrow reveal">Consulting Domains</div>
+    <h2 class="title reveal d1">Eight areas of expertise,<br><em>one integrated approach.</em></h2>
+    <p class="lead reveal d2">
+      Every engagement is tailored to the maturity, sector and ambition of the organisation —
+      from first-time digital reviews to advanced AI deployment.
+    </p>
+
+    <div class="service-grid">
+      <div class="service-card reveal">
+        <span class="service-num">01 / TRANSFORMATION</span>
+        <h3>Digital Transformation Strategy</h3>
+        <p>Structured roadmap for modernising operations, processes and systems — aligned with business objectives and measurable outcomes.</p>
+      </div>
+
+      <div class="service-card reveal d1">
+        <span class="service-num">02 / INDUSTRY 4.0</span>
+        <h3>Industry 4.0 Readiness</h3>
+        <p>Assessment of organisational maturity against the fourth industrial revolution — identifying gaps, priorities and investment pathways.</p>
+      </div>
+
+      <div class="service-card reveal d2">
+        <span class="service-num">03 / AI &amp; AGENTIC</span>
+        <h3>AI &amp; Agentic System Implementation</h3>
+        <p>Design, deployment and integration of AI models and agentic architectures adapted to the operational reality of the business.</p>
+      </div>
+
+      <div class="service-card reveal d3">
+        <span class="service-num">04 / ETHICS</span>
+        <h3>Digital Ethics &amp; Governance</h3>
+        <p>Responsible AI deployment, bias awareness, governance frameworks and a clear understanding of the digital revolution's human impact.</p>
+      </div>
+
+      <div class="service-card reveal d4">
+        <span class="service-num">05 / LLM DEPLOYMENT</span>
+        <h3>AI Tools — Installation &amp; Support</h3>
+        <p>Selection, installation and configuration of large language models and AI tools, tailored to the organisation's workflows and constraints.</p>
+      </div>
+
+      <div class="service-card reveal d5">
+        <span class="service-num">06 / CONTINUOUS SUPPORT</span>
+        <h3>Model Updates &amp; Technical Support</h3>
+        <p>Ongoing maintenance, model updates and technical support as the AI landscape evolves — keeping systems current, secure and effective.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <span class="service-num">07 / FORMATION</span>
+        <h3>Employee &amp; Executive Formation</h3>
+        <p>Structured training programmes for staff and leadership — from foundational AI literacy to advanced operational use of new tools.</p>
+      </div>
+
+      <div class="service-card reveal d1">
+        <span class="service-num">08 / CYBERSECURITY</span>
+        <h3>Cybersecurity Fundamentals</h3>
+        <p>Practical courses on safe digital behaviours, threat awareness and the right vocabulary — building a security-conscious culture across the organisation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHOTO GALLERY ============ -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="eyebrow reveal">Visual Profile</div>
+    <h2 class="title reveal d1">In the field, <em>on the ground.</em></h2>
+
+    <div class="gallery-grid single">
+      <figure class="gallery-item reveal d2">
+        <img src="https://i.ibb.co/RpPqV48b/photo-2026-09-16-11-32-19.jpg"
+             alt="Jonathan Roche in front of the Royal Palace, Phnom Penh, Cambodia"
+             loading="lazy" />
+        <figcaption>
+          <span class="gallery-loc">Phnom Penh, Cambodia</span>
+          <span class="gallery-desc">Based in the Kingdom of Cambodia — advising businesses across Southeast Asia and beyond.</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PACKAGES ============ -->
+<section id="packages">
+  <div class="wrap">
+    <div class="eyebrow reveal">Engagement Packages</div>
+    <h2 class="title reveal d1">Three tiers,<br><em>one clear path forward.</em></h2>
+    <p class="lead reveal d2">
+      Each package will be delivered as <strong> a
+      <strong>full implementation</strong> including installation, testing, formation and
+      continuous support. All engagements are scoped to the size and complexity of the organisation.
+    </p>
+
+    <div class="pricing-grid">
+      <!-- PACKAGE 1 -->
+      <div class="price-card reveal">
+        <span class="price-num">PACKAGE 01</span>
+        <h3>Diagnostic &amp; Strategic Advisory</h3>
+        <div class="price-amount">$300<small>/ hour</small></div>
+        <p class="price-desc">
+          A purely advisory engagement. Comprehensive commentary on the organisation —
+          strengths, weaknesses and vulnerabilities — with clear recommendations on what
+          should change to be more effective and more secure.
+        </p>
+        <ul class="price-list">
+          <li>Full organisational review </li>
+          <li>Identification of critical vulnerabilities</li>
+          <li>Priority recommendations for improvement</li>
+          <li>Risk &amp; opportunity analysis</li>
+          <li>Executive summary &amp; roadmap outline</li>
+          <li>Written report and executive briefing</li>
+        </ul>
+        <a href="mailto:joe.agentic@gmail.com?subject=Consulting%20Enquiry%20—%20Package%2001" class="price-cta">Request Package</a>
+      </div>
+
+      <!-- PACKAGE 2 -->
+      <div class="price-card reveal d1">
+        <span class="price-num">PACKAGE 02</span>
+        <h3>Digital Transformation &amp; Infrastructure Review</h3>
+        <div class="price-amount">$500<small>/ hour</small></div>
+        <p class="price-desc">
+          A complete review of the organisation's technical foundation — servers, computers,
+          networks and systems — with a safety and resilience assessment, and a structured
+          roadmap for successful digital transformation.
+        </p>
+        <ul class="price-list">
+          <li>Full review of servers, computers and systems</li>
+          <li>Cybersecurity posture assessment</li>
+          <li>Data protection &amp; access control review</li>
+          <li>Digital transformation roadmap</li>
+          <li>Industry 4.0 readiness report</li>
+          <li>Implementation priorities &amp; cost outline</li>
+        </ul>
+        <a href="mailto:joe.agentic@gmail.com?subject=Consulting%20Enquiry%20—%20Package%2002" class="price-cta">Request Package</a>
+      </div>
+
+      <!-- PACKAGE 3 — FEATURED -->
+      <div class="price-card featured reveal d2">
+        <span class="price-num">PACKAGE 03</span>
+        <h3>Complete Implementation &amp; Enablement</h3>
+        <div class="price-amount">$700<small>/ hour</small></div>
+        <p class="price-desc">
+          End-to-end deployment. Complete infrastructure security, AI and agentic system
+          implementation, installation, testing, formation and continuous support.
+          The flagship engagement for organisations ready to fully transform.
+        </p>
+        <ul class="price-list">
+          <li>Complete infrastructure security hardening</li>
+          <li>LLM &amp; AI tool installation and configuration</li>
+          <li>Agentic system design and deployment</li>
+          <li>Full testing &amp; validation</li>
+          <li>Employee &amp; executive formation programmes</li>
+          <li>Cybersecurity safe-behaviour course</li>
+          <li>Continuous model updates &amp; technical support</li>
+        </ul>
+        <a href="mailto:joe.agentic@gmail.com?subject=Consulting%20Enquiry%20—%20Package%2003" class="price-cta">Request Package</a>
+      </div>
+    </div>
+
+    <div class="pricing-note reveal d3">
+      <strong>Flexible delivery.</strong> Packages are available as <strong>theory-only advisory</strong>
+      or as a <strong>complete implementation</strong> — including installation, testing, formation and
+      ongoing support. Engagements can be delivered on an hourly, retainer or project basis, and are
+      tailored to the size and sector of the organisation, from small businesses to large enterprise.
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience">
+  <div class="wrap">
+    <div class="eyebrow reveal">Professional Background</div>
+    <h2 class="title reveal d1">A foundation built on <em>operational leadership &amp; trust.</em></h2>
+
+    <div class="timeline" id="timeline">
+      <div class="tl-line"><div class="tl-fill" id="tlFill"></div></div>
+
+      <article class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-date">2020 — Present</span>
+          <h3>Independent Consultant</h3>
+          <h4>Digital Transformation &amp; Emerging Technology · Phnom Penh &amp; Remote</h4>
+          <p>Advising businesses of every size on digital transformation, Industry 4.0 readiness, AI and agentic system implementation, digital ethics, and cybersecurity fundamentals. Delivering strategic advisory and hands-on deployment — from diagnostic review through to installation, formation and continuous technical support.</p>
+          <div class="chips">
+            <span class="chip">Digital Transformation</span><span class="chip">AI &amp; Agentic</span>
+            <span class="chip">Cybersecurity</span><span class="chip">Formation</span>
+            <span class="chip">AI Ethics</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-date">2018 — 2019</span>
+          <h3>Security Agent</h3>
+          <h4>Ying Huang Casino · Sihanoukville, Cambodia</h4>
+          <p>Monitored gaming floors, restricted areas and sensitive casino operations. Managed access control for VIP and restricted zones, supported incident prevention and conflict management, and produced detailed security reports in English for management.</p>
+          <div class="chips">
+            <span class="chip">Access Control</span><span class="chip">VIP Zones</span>
+            <span class="chip">Incident Prevention</span><span class="chip">Reporting</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-date">2017 — 2018</span>
+          <h3>Hotel Manager / Operations Manager</h3>
+          <h4>Golden Boat Hotel · Phnom Penh, Cambodia</h4>
+          <p>Managed approximately 20 employees across reception, housekeeping and security. Oversaw staff scheduling, day-to-day operations and service quality, managed budgets and operational requirements, and maintained relationships with international and VIP guests while coordinating security, customer service and facility operations.</p>
+          <div class="chips">
+            <span class="chip">20 Staff</span><span class="chip">Budget Oversight</span>
+            <span class="chip">Service Quality</span><span class="chip">VIP Relations</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-date">2015 — 2017</span>
+          <h3>Director &amp; General Manager</h3>
+          <h4>Loby Nightclub · Phnom Penh, Cambodia</h4>
+          <p>Managed overall nightclub operations including staff, security, customer relations and administration. Supervised security procedures and crowd-management protocols, led multicultural teams in a high-pressure nightlife environment, and handled incidents, conflict resolution and operational decision-making.</p>
+          <div class="chips">
+            <span class="chip">Crowd Management</span><span class="chip">Multicultural Teams</span>
+            <span class="chip">Conflict Resolution</span><span class="chip">VIP Clients</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-date">2010 — 2013</span>
+          <h3>Security Agent / Close Protection</h3>
+          <h4>Louis Vuitton · Saint-Tropez, France</h4>
+          <p>Protected luxury merchandise and high-value assets in one of Europe's most prestigious destinations. Managed client access, supported VIP customer environments, and conducted loss-prevention and security monitoring in a luxury retail setting. Worldwide close-protection experience in demanding environments.</p>
+          <div class="chips">
+            <span class="chip">Close Protection</span><span class="chip">Loss Prevention</span>
+            <span class="chip">High-Value Assets</span><span class="chip">Luxury Retail</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-date">2010</span>
+          <h3>Security Agent / Close Protection</h3>
+          <h4>Le Quai · Saint-Tropez, France</h4>
+          <p>Provided security for a high-end nightlife establishment. Managed entrance control, crowd behaviour and conflict prevention, responding to alcohol-related incidents and challenging customer situations.</p>
+          <div class="chips">
+            <span class="chip">Entrance Control</span><span class="chip">Crowd Behaviour</span>
+            <span class="chip">Conflict Prevention</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-date">2010</span>
+          <h3>Security Agent</h3>
+          <h4>Dior · Saint-Tropez, France</h4>
+          <p>Managed store access and customer monitoring. Supported theft prevention and protection of high-value merchandise in a luxury boutique environment.</p>
+          <div class="chips">
+            <span class="chip">Store Access</span><span class="chip">Theft Prevention</span>
+            <span class="chip">Luxury Boutique</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- EARLIER CAREER -->
+    <div class="earlier">
+      <h3>Earlier Career &amp; Education</h3>
+      <div class="mini-grid">
+        <div class="mini reveal">
+          <b>Logistics Assistant</b>
+          <em>Bedel · Paris, France · 2008</em>
+          <p>Supported logistics, transportation and physical organisation of client property.</p>
+        </div>
+        <div class="mini reveal d1">
+          <b>Sales Representative</b>
+          <em>Exotic Coffee · Beijing, China · 2007</em>
+          <p>Developed new client relationships and promoted premium products to local and international customers in a Mandarin-speaking commercial environment.</p>
+        </div>
+        <div class="mini reveal d2">
+          <b>French Teacher</b>
+          <em>Beijing University · China · 2006</em>
+          <p>Taught French language and culture to Chinese students.</p>
+        </div>
+        <div class="mini reveal d3">
+          <b>English Teacher</b>
+          <em>Xinbao Kindergarten · Beijing, China · 2006</em>
+          <p>Introduced young students to spoken English.</p>
+        </div>
+        <div class="mini reveal d4">
+          <b>Beijing Sport University</b>
+          <em>2004 — 2006 · Beijing, China</em>
+          <p>Studies in Kung Fu / Wushu, Mandarin Chinese language and Chinese culture.</p>
+        </div>
+        <div class="mini reveal d5">
+          <b>Lycée Bergson — Baccalauréat</b>
+          <em>2002 · Paris, France</em>
+          <p>French secondary education diploma.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills">
+  <div class="wrap">
+    <div class="eyebrow reveal">Consulting Competencies</div>
+    <h2 class="title reveal d1">Depth across technology,<br><em>security and leadership.</em></h2>
+
+    <div class="skill-grid">
+      <div class="skill-card reveal">
+        <span class="skill-num">01 / EMERGING TECH</span>
+        <h3><i></i>AI, Blockchain &amp; Agentic Systems</h3>
+        <div class="skill-tags">
+          <span class="tag">Prompt Engineering</span><span class="tag">AI Ethics</span>
+          <span class="tag">Agentic Systems</span><span class="tag">Blockchain</span>
+          <span class="tag">Digital Assets</span><span class="tag">Solidity Fundamentals</span>
+          <span class="tag">Emerging Tech Research</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal d1">
+        <span class="skill-num">02 / CYBERSECURITY</span>
+        <h3><i></i>Cybersecurity &amp; Digital Risk</h3>
+        <div class="skill-tags">
+          <span class="tag">Cybersecurity Awareness</span><span class="tag">Network Security</span>
+          <span class="tag">Threat Awareness</span><span class="tag">Data Protection</span>
+          <span class="tag">Social Engineering</span><span class="tag">Access Control Systems</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal d2">
+        <span class="skill-num">03 / ADVISORY</span>
+        <h3><i></i>Strategy, Governance &amp; Formation</h3>
+        <div class="skill-tags">
+          <span class="tag">Digital Transformation</span><span class="tag">Industry 4.0 Readiness</span>
+          <span class="tag">AI Governance</span><span class="tag">Executive Formation</span>
+          <span class="tag">Employee Training</span><span class="tag">Change Management</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal d3">
+        <span class="skill-num">04 / OPERATIONS</span>
+        <h3><i></i>Operations, Security &amp; Leadership</h3>
+        <div class="skill-tags">
+          <span class="tag">Team Leadership</span><span class="tag">Close Protection</span>
+          <span class="tag">VIP Protection</span><span class="tag">Crisis Management</span>
+          <span class="tag">Luxury Service Standards</span><span class="tag">International Clientele</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LANGUAGES -->
+    <div class="lang-wrap">
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <linearGradient id="langGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#22e1ff"/>
+            <stop offset="55%" stop-color="#8b5cf6"/>
+            <stop offset="100%" stop-color="#ff2fb9"/>
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <div class="lang reveal" data-pct="100">
+        <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fg" cx="60" cy="60" r="52"/></svg>
+        <div class="lang-pct">100%</div>
+        <div class="lang-body"><strong>French</strong><span>Native</span></div>
+      </div>
+
+      <div class="lang reveal d1" data-pct="95">
+        <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fg" cx="60" cy="60" r="52"/></svg>
+        <div class="lang-pct">95%</div>
+        <div class="lang-body"><strong>English</strong><span>Fluent</span></div>
+      </div>
+
+      <div class="lang reveal d2" data-pct="78">
+        <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fg" cx="60" cy="60" r="52"/></svg>
+        <div class="lang-pct">78%</div>
+        <div class="lang-body"><strong>Mandarin Chinese</strong><span>Professional Working</span></div>
+      </div>
+    </div>
+
+    <!-- TECH MARQUEE -->
+    <div class="marquee">
+      <div class="marquee-track" id="marquee">
+        <span>Digital Transformation</span><span>◆</span>
+        <span>Industry 4.0</span><span>◆</span>
+        <span>AI &amp; Agentic Systems</span><span>◆</span>
+        <span>Prompt Engineering</span><span>◆</span>
+        <span>AI Ethics</span><span>◆</span>
+        <span>Cybersecurity</span><span>◆</span>
+        <span>Blockchain</span><span>◆</span>
+        <span>LLM Deployment</span><span>◆</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="eyebrow reveal">Contact</div>
+    <h2 class="reveal d1">Your transformation<br><em>starts here.</em></h2>
+    <p class="lead reveal d2" style="text-align:center;margin-left:auto;margin-right:auto">
+      Available immediately for consulting engagements across Cambodia, Southeast Asia and
+      internationally. Small, medium and large organisations welcome. Let's discuss how your
+      business can move confidently into the digital era.
+    </p>
+
+    <div class="cta-row reveal d3" style="justify-content:center">
+      <a href="mailto:joe.agentic@gmail.com?subject=Consulting%20Enquiry" class="btn solid"><span>Request a Consultation</span><span class="arrow">→</span></a>
+      <a href="https://t.me/Agentickh" target="_blank" rel="noopener noreferrer" class="btn"><span>Message on Telegram</span><span class="arrow">→</span></a>
+    </div>
+
+    <div class="contact-meta reveal d4">
+      <a class="meta-chip" href="mailto:joe.agentic@gmail.com">
+        Email <b>joe.agentic@gmail.com</b>
+      </a>
+      <a class="meta-chip" href="https://t.me/Agentickh" target="_blank" rel="noopener noreferrer">
+        Telegram <b>@Agentickh</b>
+      </a>
+      <a class="meta-chip" href="https://t.me/Agentickh" target="_blank" rel="noopener noreferrer">
+        t.me <b>Agentickh</b>
+      </a>
+      <a class="meta-chip" href="tel:+855969503632">
+        Phone <b>+855 96 950 3632</b>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>© <span id="year"></span> Jonathan Victor Alexandre Roche</span>
+  <span>Digital Transformation · AI · Cybersecurity Consulting</span>
+  <div class="footer-links">
+    <a href="mailto:joe.agentic@gmail.com">joe.agentic@gmail.com</a>
+    <span>·</span>
+    <a href="https://t.me/Agentickh" target="_blank" rel="noopener noreferrer">@Agentickh</a>
+    <span>·</span>
+    <a href="tel:+855969503632">+855 96 950 3632</a>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   0. LOADER
+   ========================================================= */
+(function(){
+  const loader = document.getElementById('loader');
+  function finish(){
+    loader.classList.add('hide');
+    document.body.classList.add('loaded');
+    setTimeout(()=>loader.remove(), 900);
+  }
+  window.addEventListener('load', ()=>setTimeout(finish, 900));
+  setTimeout(()=>{ if(document.body.contains(loader)) finish(); }, 3200);
+})();
+
+/* =========================================================
+   1. PARTICLE NETWORK BACKGROUND
+   ========================================================= */
+(function(){
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let w, h, dpr, particles = [], mouse = {x:-9999, y:-9999};
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function init(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = canvas.width = innerWidth * dpr;
+    h = canvas.height = innerHeight * dpr;
+    canvas.style.width = innerWidth + 'px';
+    canvas.style.height = innerHeight + 'px';
+
+    const density = innerWidth < 760 ? 38 : (innerWidth < 1200 ? 62 : 92);
+    particles = [];
+    for(let i=0;i<density;i++){
+      particles.push({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        vx: (Math.random()-.5)*0.28*dpr,
+        vy: (Math.random()-.5)*0.28*dpr,
+        r: (Math.random()*1.5 + .6) * dpr,
+        hue: Math.random() > .65 ? 'magenta' : (Math.random() > .5 ? 'violet' : 'cyan')
+      });
+    }
+  }
+
+  const COLORS = {
+    cyan:   [34,225,255],
+    violet: [139,92,246],
+    magenta:[255,47,185]
+  };
+
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+
+    const maxDist = (innerWidth < 760 ? 110 : 140) * dpr;
+    for(let i=0;i<particles.length;i++){
+      const p = particles[i];
+      for(let j=i+1;j<particles.length;j++){
+        const q = particles[j];
+        const dx = p.x-q.x, dy = p.y-q.y;
+        const d = Math.sqrt(dx*dx+dy*dy);
+        if(d < maxDist){
+          const a = (1 - d/maxDist) * 0.34;
+          ctx.strokeStyle = `rgba(80,160,220,${a})`;
+          ctx.lineWidth = 0.7 * dpr;
+          ctx.beginPath();
+          ctx.moveTo(p.x,p.y);
+          ctx.lineTo(q.x,q.y);
+          ctx.stroke();
+        }
+      }
+      const mdx = p.x - mouse.x, mdy = p.y - mouse.y;
+      const md = Math.sqrt(mdx*mdx+mdy*mdy);
+      const mMax = 190 * dpr;
+      if(md < mMax){
+        const a = (1 - md/mMax) * 0.55;
+        ctx.strokeStyle = `rgba(34,225,255,${a})`;
+        ctx.lineWidth = 0.9 * dpr;
+        ctx.beginPath();
+        ctx.moveTo(p.x,p.y);
+        ctx.lineTo(mouse.x,mouse.y);
+        ctx.stroke();
+      }
+    }
+
+    for(const p of particles){
+      const c = COLORS[p.hue];
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},0.75)`;
+      ctx.shadowBlur = 10*dpr;
+      ctx.shadowColor = `rgba(${c[0]},${c[1]},${c[2]},0.9)`;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      if(!reduce){
+        p.x += p.vx; p.y += p.vy;
+        if(p.x < 0 || p.x > w) p.vx *= -1;
+        if(p.y < 0 || p.y > h) p.vy *= -1;
+        p.x = Math.max(0, Math.min(w, p.x));
+        p.y = Math.max(0, Math.min(h, p.y));
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', init);
+  window.addEventListener('mousemove', e=>{
+    mouse.x = e.clientX * dpr;
+    mouse.y = e.clientY * dpr;
+  });
+  window.addEventListener('mouseout', ()=>{ mouse.x = -9999; mouse.y = -9999; });
+  window.addEventListener('touchmove', e=>{
+    if(e.touches[0]){
+      mouse.x = e.touches[0].clientX * dpr;
+      mouse.y = e.touches[0].clientY * dpr;
+    }
+  }, {passive:true});
+
+  init();
+  draw();
+})();
+
+/* =========================================================
+   2. CUSTOM CURSOR
+   ========================================================= */
+(function(){
+  if(window.matchMedia('(pointer:coarse)').matches) return;
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+
+  window.addEventListener('mousemove', e=>{
+    mx = e.clientX; my = e.clientY;
+    dot.style.transform = `translate(${mx-3}px, ${my-3}px)`;
+  });
+
+  (function loop(){
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    ring.style.transform = `translate(${rx-19}px, ${ry-19}px)`;
+    requestAnimationFrame(loop);
+  })();
+
+  const hot = document.querySelectorAll('a, button, .tl-card, .skill-card, .mini, .lang, .pillar, .tag, .chip, .gallery-item, .service-card, .price-card');
+  hot.forEach(el=>{
+    el.addEventListener('mouseenter', ()=>ring.classList.add('hot'));
+    el.addEventListener('mouseleave', ()=>ring.classList.remove('hot'));
+  });
+})();
+
+/* =========================================================
+   3. TYPEWRITER
+   ========================================================= */
+(function(){
+  const el = document.getElementById('typed');
+  if(!el) return;
+  const roles = [
+    'Digital Transformation Advisor',
+    'AI & Agentic Systems Consultant',
+    'Cybersecurity & Digital Ethics',
+    'Industry 4.0 Readiness',
+    'LLM Deployment & Formation'
+  ];
+  let ri = 0, ci = 0, deleting = false;
+
+  function tick(){
+    const word = roles[ri];
+    if(!deleting){
+      el.textContent = word.slice(0, ++ci);
+      if(ci === word.length){ deleting = true; return setTimeout(tick, 1900); }
+      setTimeout(tick, 62);
+    } else {
+      el.textContent = word.slice(0, --ci);
+      if(ci === 0){ deleting = false; ri = (ri+1) % roles.length; return setTimeout(tick, 320); }
+      setTimeout(tick, 30);
+    }
+  }
+  setTimeout(tick, 1500);
+})();
+
+/* =========================================================
+   4. SCROLL REVEAL
+   ========================================================= */
+(function(){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        entry.target.querySelectorAll('.chip, .tag').forEach((c,i)=>{
+          c.style.setProperty('--i', i);
+        });
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold: 0.14, rootMargin: '0px 0px -60px 0px'});
+
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  document.querySelectorAll('.tl-item').forEach(el=>io.observe(el));
+})();
+
+/* =========================================================
+   5. COUNTERS
+   ========================================================= */
+(function(){
+  const nums = document.querySelectorAll('[data-count]');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseFloat(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const dur = 1800;
+      const start = performance.now();
+      function step(now){
+        const p = Math.min((now - start)/dur, 1);
+        const eased = 1 - Math.pow(1-p, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if(p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+      io.unobserve(el);
+    });
+  }, {threshold:.5});
+  nums.forEach(n=>io.observe(n));
+})();
+
+/* =========================================================
+   6. LANGUAGE RINGS
+   ========================================================= */
+(function(){
+  const langs = document.querySelectorAll('.lang');
+  const C = 2 * Math.PI * 52;
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting) return;
+      const el = entry.target;
+      const pct = parseFloat(el.dataset.pct);
+      const ring = el.querySelector('.ring-fg');
+      const label = el.querySelector('.lang-pct');
+      ring.style.strokeDasharray = C;
+      ring.style.strokeDashoffset = C;
+      requestAnimationFrame(()=>{
+        ring.style.strokeDashoffset = C * (1 - pct/100);
+      });
+      const start = performance.now();
+      (function step(now){
+        const p = Math.min((now-start)/1600, 1);
+        const eased = 1 - Math.pow(1-p, 3);
+        label.textContent = Math.round(pct * eased) + '%';
+        if(p < 1) requestAnimationFrame(step);
+      })(start);
+      io.unobserve(el);
+    });
+  }, {threshold:.4});
+  langs.forEach(l=>io.observe(l));
+})();
+
+/* =========================================================
+   7. NAV
+   ========================================================= */
+(function(){
+  const nav = document.getElementById('nav');
+  const bar = document.getElementById('progressBar');
+  const links = document.querySelectorAll('.nav-links a');
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+
+  function onScroll(){
+    const y = window.scrollY;
+    nav.classList.toggle('solid', y > 40);
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.width = (max > 0 ? (y/max)*100 : 0) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const sections = [...document.querySelectorAll('section[id]')];
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        links.forEach(l=>l.classList.toggle('active', l.getAttribute('href') === '#'+entry.target.id));
+      }
+    });
+  }, {rootMargin:'-45% 0px -50% 0px'});
+  sections.forEach(s=>io.observe(s));
+
+  burger.addEventListener('click', ()=>{
+    burger.classList.toggle('on');
+    navLinks.classList.toggle('open');
+    document.body.classList.toggle('locked');
+  });
+  links.forEach(l=>l.addEventListener('click', ()=>{
+    burger.classList.remove('on');
+    navLinks.classList.remove('open');
+    document.body.classList.remove('locked');
+  }));
+})();
+
+/* =========================================================
+   8. TIMELINE FILL + GLOW TRACKING
+   ========================================================= */
+(function(){
+  const timeline = document.getElementById('timeline');
+  const fill = document.getElementById('tlFill');
+  if(!timeline) return;
+
+  function update(){
+    const rect = timeline.getBoundingClientRect();
+    const anchor = innerHeight * 0.55;
+    const scrolled = Math.max(0, Math.min(anchor - rect.top, rect.height));
+    fill.style.height = scrolled + 'px';
+  }
+  window.addEventListener('scroll', update, {passive:true});
+  window.addEventListener('resize', update);
+  update();
+
+  document.querySelectorAll('.tl-card').forEach(card=>{
+    card.addEventListener('mousemove', e=>{
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+})();
+
+/* =========================================================
+   9. TAG STAGGER
+   ========================================================= */
+(function(){
+  document.querySelectorAll('.skill-tags').forEach(group=>{
+    group.querySelectorAll('.tag').forEach((t,i)=>t.style.setProperty('--i', i));
+  });
+})();
+
+/* =========================================================
+   10. MARQUEE DUPLICATION
+   ========================================================= */
+(function(){
+  const track = document.getElementById('marquee');
+  if(!track) return;
+  track.innerHTML += track.innerHTML;
+})();
+
+/* =========================================================
+   11. YEAR
+   ========================================================= */
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
